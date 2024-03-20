@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Üye Kayıt Formu</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    form {
+        text-align: center;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#kaydetBtn").click(function(){
+        var eposta = $("#eposta").val();
+        var ad = $("#ad").val();
+        var soyad = $("#soyad").val();
+        var cepTelefonu = $("#cepTelefonu").val();
+        var sifre = $("#sifre").val();
+        var sifreTekrar = $("#sifreTekrar").val();
+
+        // E-posta formatı kontrolü
+        var emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailFormat.test(eposta)) {
+            alert("Geçerli bir e-posta adresi giriniz.");
+            return false;
+        }
+
+        if (ad == '' || soyad == '' || cepTelefonu == '' || sifre == '' || sifreTekrar == '') {
+            alert("Lütfen tüm alanları doldurun.");
+            return false;
+        }
+
+        // Şifreler eşleşiyor mu
+        if (sifre !== sifreTekrar) {
+            alert("Girilen şifreler eşleşmiyor.");
+            return false;
+        }
+
+        // Sorun yoksa alert ile bilgileri göster ve yönlendir
+        alert("Kayıt başarıyla tamamlandı:\nE-posta: " + eposta + "\nAd: " + ad + "\nSoyad: " + soyad + "\nCep Telefonu: " + cepTelefonu);
+        window.location.href = "sayfa2.html";
+    });
+});
+</script>
+</head>
+<body>
+    <form>
+        <h2>Üye Kayıt Formu</h2>
+        <label for="eposta">E-posta:</label><br>
+        <input type="email" id="eposta" name="eposta"><br><br>
+
+        <label for="ad">Ad:</label><br>
+        <input type="text" id="ad" name="ad"><br><br>
+
+        <label for="soyad">Soyad:</label><br>
+        <input type="text" id="soyad" name="soyad"><br><br>
+
+        <label for="cepTelefonu">Cep Telefonu:</label><br>
+        <input type="text" id="cepTelefonu" name="cepTelefonu"><br><br>
+
+        <label for="sifre">Şifre:</label><br>
+        <input type="password" id="sifre" name="sifre"><br><br>
+
+        <label for="sifreTekrar">Şifre Tekrar:</label><br>
+        <input type="password" id="sifreTekrar" name="sifreTekrar"><br><br>
+
+        <input type="button" id="kaydetBtn" value="Kaydet">
+    </form>
+</body>
+</html>
