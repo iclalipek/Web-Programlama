@@ -1,0 +1,57 @@
+<%@page import="com.java.finalproject.model.Message"%>
+<%@page import="com.java.finalproject.dao.UserDAO"%>
+<%@page errorPage="error_ex.jsp"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%
+Admin activeAdmin = (Admin) session.getAttribute("activeAdmin");
+if (activeAdmin == null) {
+	Message message = new Message("You are not logged in! Login first!!", "error", "alert-danger");
+	session.setAttribute("message", message);
+	response.sendRedirect("adminlogin.jsp");
+	return;
+}
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>View User's</title>
+<%@include file="Attachment/collective_css.jsp"%>
+</head>
+<body>
+	
+	<%@include file="Attachment/navbar.jsp"%>
+
+	<div class="container-fluid px-5 py-3">
+		<table class="table table-hover">
+			<tr class="text-center table-primary" style="font-size: 18px;">
+				<th>User Name</th>
+				<th>Email</th>
+				<th>Phone No.</th>
+				<th>Gender</th>
+				<th>Address</th>
+				<th>Register Date</th>
+				<th>Action</th>
+			</tr>
+			<%
+			UserDAO userDao = new UserDAO(ConnectionPro.getConnection());
+			List<User> userList = userDao.getAllUser();
+			for (User u : userList) {
+			%>
+			<tr>
+				<td><%=u.getUserName()%></td>
+				<td><%=u.getUserEmail()%></td>
+				<td><%=u.getUserPhone()%></td>
+				<td><%=u.getUserGender()%></td>
+				<td><%=userDao.getUserAddress(u.getUserId())%></td>
+				<td><%=u.getDateTime()%></td>
+				<td><a href="UpdateUserServ?operation=deleteUser&uid=<%=u.getUserId()%>" role="button" class="btn btn-danger">Remove</a></td>
+			</tr>
+			<%
+			}
+			%>
+		</table>
+	</div>
+</body>
+</html>
